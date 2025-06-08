@@ -1,0 +1,11 @@
+services:
+{{range .}}
+  {{.Uid}}:
+    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: build/{{.Uid}}/Dockerfile
+      args:
+        - PROVENANCE=false
+    image: {{.Uid}}
+{{end}}

@@ -1,0 +1,8 @@
+FROM golang:{{.GoVersion}} as build
+WORKDIR /{{.Uid}}
+COPY ./ ./
+RUN go build -o run -tags lambda.norpc build/{{.Uid}}/{{.Uid}}.go
+FROM public.ecr.aws/lambda/provided:al2023
+COPY ./ ./
+COPY --from=build /{{.Uid}} ./
+ENTRYPOINT [ "./run" ]
